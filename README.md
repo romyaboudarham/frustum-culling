@@ -6,7 +6,9 @@ Built to explore rendering optimisation techniques after a conversation with the
 
 ## What I explored
 
-- **LOD with lazy loading and fallback** — four resolution tiers (64px → 300px → 1024px → 2048px) loaded lazily as tiles enter the viewport and scale thresholds are crossed. If a higher-res image hasn't loaded yet, the nearest lower level draws as a fallback — no blank tiles.
+- **Lazy loading** — each tile holds four image slots (64px, 300px, 1024px, 2048px). A slot's src is only set when the tile enters the viewport (or the prefetch buffer just outside it). Images are never loaded upfront.
+
+- **LOD** — each frame, the current zoom level is mapped to a resolution tier. The correct slot is requested if not already loaded. While it loads, the nearest already-complete lower tier draws as a fallback — no blank tiles.
 
 - **Frustum Culling** —
   Removing draw calls for off-screen tiles. Result: JavaScript loops 6 vs 1600 times.
