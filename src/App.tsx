@@ -136,15 +136,8 @@ function App() {
         <div ref={fpsDisplayRef} style={{ fontSize: 28, fontWeight: 700, color: '#00ff88' }}>
           -- FPS
         </div>
-        <div ref={resolutionRef} style={{ fontSize: 13, color: '#ccc' }}>
-          --×--px
-        </div>
-        <div ref={tileCountRef} style={{ fontSize: 13, color: '#ccc' }}>
-          -- / -- tiles
-        </div>
-
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 13, color: '#ccc' }}>
-          <input 
+          <input
             type="number"
             min={0}
             max={maxTiles}
@@ -158,35 +151,49 @@ function App() {
             }}
             style={({ width: 50, background: 'rgba(255,255,255,0.2)', color: '#ccc', border: '1px solid #000', borderRadius: 2, padding: '2px 6px', fontFamily: 'monospace' })}
           />
-          <span style={{ color: '#ccc'}}># tiles</span>
+          <span style={{ color: '#ccc' }}># tiles</span>
         </div>
+
+        
 
         {/* Toggle rows */}
         {([
           { label: 'Level of Detail', enabled: lodEnabled, toggle: () => setLodEnabled(l => !l) },
-          { label: 'Culling', enabled: cullingEnabled, toggle: () => setCullingEnabled(c => !c) },
+          { label: 'Frustum Culling', enabled: cullingEnabled, toggle: () => setCullingEnabled(c => !c) },
         ] as const).map(({ label, enabled, toggle }) => (
-          <div key={label} onClick={toggle} style={{
-            display: 'flex', alignItems: 'center', gap: 10,
-            cursor: 'pointer', fontSize: 13, color: '#ccc',
-          }}>
-            {/* track */}
-            <div style={{
-              width: 36, height: 20, borderRadius: 10,
-              background: enabled ? '#00ff88' : '#444',
-              position: 'relative',
-              transition: 'background 0.2s',
+          <div key={label} style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+            <div onClick={toggle} style={{
+              display: 'flex', alignItems: 'center', gap: 10,
+              cursor: 'pointer', fontSize: 13, color: '#ccc',
             }}>
-              {/* thumb */}
               <div style={{
-                position: 'absolute',
-                top: 3, left: enabled ? 19 : 3,
-                width: 14, height: 14, borderRadius: '50%',
-                background: '#fff',
-                transition: 'left 0.2s',
-              }} />
+                width: 36, height: 20, borderRadius: 10,
+                background: enabled ? '#00ff88' : '#444',
+                position: 'relative',
+                transition: 'background 0.2s',
+              }}>
+                <div style={{
+                  position: 'absolute',
+                  top: 3, left: enabled ? 19 : 3,
+                  width: 14, height: 14, borderRadius: '50%',
+                  background: '#fff',
+                  transition: 'left 0.2s',
+                }} />
+              </div>
+              <span>{label}</span>
             </div>
-            <span>{label}</span>
+
+            {label === 'Level of Detail' && (
+              <div ref={resolutionRef} style={{ fontSize: 13, color: '#e0d896', marginLeft: 46 }}>
+                --×--px
+              </div>
+            )}
+
+            {label === 'Frustum Culling' && (
+              <div ref={tileCountRef} style={{ fontSize: 13, color: '#e0d896', marginLeft: 46 }}>
+                -- / -- tiles
+              </div>
+            )}
           </div>
         ))}
       </div>
