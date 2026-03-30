@@ -17,7 +17,7 @@ Results (6400 tiles, at rest)
 | Lazy loading    | 191 MB | 16% | 0         |
 | Upfront loading | 1.0 GB | 61% | 13.1 MB/s |
 
-The cost isn't just bandwidth — the browser has to decode and hold all 25,600 bitmaps (6400 tiles × 4 LOD slots) in memory at once, which is why upfront loading hits 1 GB. Lazy loading keeps only viewed tiles decoded.
+The browser has to decode and hold all 25,600 bitmaps (6400 tiles × 4 LOD slots) in memory at once, which is why upfront loading hits 1 GB. Lazy loading keeps only viewed tiles decoded.
 
 - **Level of Detail (LOD)** — the current zoom level of each frame is mapped to a resolution tier. The respective slot is requested if not already loaded. While it loads, the nearest already-complete lower tier draws as a fallback --> resulting in no blank tiles.
 
