@@ -5,4 +5,4 @@ export const LOD_LEVELS = [
   { threshold: 1.5, size: 2048 },
 ]
 
-export const DEFAULT_LOD_INDEX = 2 // 1024px — used when LOD is off
+export const DEFAULT_LOD_INDEX = 3 // 2048px — used when LOD is off

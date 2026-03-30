@@ -16,7 +16,14 @@ export function useTiles(cols: number, rows: number) {
             y: Math.floor(i / cols) * (TILE_SIZE + GAP),
             w: TILE_SIZE,
             h: TILE_SIZE,
+            // Lazy Load:
             imgs: LOD_LEVELS.map(() => new Image()),
+            // Eager Load:
+            // imgs: LOD_LEVELS.map((level, li) => {
+            //     const img = new Image()
+            //     img.src = `https://picsum.photos/seed/${i}/${level.size}/${level.size}`
+            //     return img
+            // }),
         }))
     }, [cols, rows])
     return tilesRef
