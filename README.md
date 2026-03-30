@@ -6,11 +6,12 @@ Built to explore rendering optimisation techniques after a conversation about pe
 
 ## What I explored
 
-- **Lazy loading** — each tile holds four image slots (64px, 300px, 1024px, 2048px). A slot's src is only set when the tile enters the viewport (or the prefetch buffer just outside it).
+### Lazy loading 
+each tile holds four image slots (64px, 300px, 1024px, 2048px). A slot's src is only set when the tile enters the viewport (or the prefetch buffer just outside it).
 
 Developement pivot: Originally, all 4 images were fetched and loaded upfront, this caused a noticible lag on initial page load and a high consumtion of GPU. After analyzing other large canvas web-apps like Google Maps or Figma, I pivoted to lazy loading for better performance.
 
-Results (6400 tiles, at rest)
+**Results (6400 tiles, at rest)**
 
 |                 | Memory | CPU | Network   |
 | --------------- | ------ | --- | --------- |
@@ -19,9 +20,10 @@ Results (6400 tiles, at rest)
 
 The browser has to decode and hold all 25,600 bitmaps (6400 tiles × 4 LOD slots) in memory at once, which is why upfront loading hits 1 GB. Lazy loading keeps only viewed tiles decoded.
 
-- **Level of Detail (LOD)** — the current zoom level of each frame is mapped to a resolution tier. The respective slot is requested if not already loaded. While it loads, the nearest already-complete lower tier draws as a fallback --> resulting in no blank tiles.
+### Level of Detail (LOD)
+the current zoom level of each frame is mapped to a resolution tier. The respective slot is requested if not already loaded. While it loads, the nearest already-complete lower tier draws as a fallback --> resulting in no blank tiles.
 
-Results (6400 tiles, culling OFF, panning)
+**Results (6400 tiles, culling OFF, panning)**
 
 |                         | LOD ON | LOD OFF (always 2048px) |
 | ----------------------- | ------ | ----------------------- |
@@ -30,10 +32,10 @@ Results (6400 tiles, culling OFF, panning)
 
 Zoomed out with LOD shows significant performance increase. With LOD OFF, the GPU decodes and draws 2048px bitmaps scaled down to tiny screen-size tiles, which dramatically decreases performance. With LOD ON, the 64px tier is served instead and the GPU barely notices. Zoomed in, both modes use 2048px images anyway, so performance is near-identical.
 
-- **Frustum Culling** —
-  Removing draw calls for off-screen tiles.
+### Frustum Culling
+Removing draw calls for off-screen tiles.
 
-Results (LOD ON, zoomed out, at rest)
+**Results (LOD ON, zoomed out, at rest)**
 
 | | Culling ON | Culling OFF |
 |---|---|---|
@@ -49,9 +51,11 @@ Future Research
 
 - a 2D canvas like Figma or Viscom won't have content in a neat grid. Instead I want to use quadrant lookup.
 
-- **devicePixelRatio** — without it the canvas renders at half resolution on Retina displays, making images look soft regardless of source quality. Fixed by sizing the canvas in physical pixels and scaling the context to match.
+### devicePixelRatio
+without it the canvas renders at half resolution on Retina displays, making images look soft regardless of source quality. Fixed by sizing the canvas in physical pixels and scaling the context to match.
 
-- **Keeping the render loop outside React** — pan, zoom, tile state and draw calls all live in refs and a custom rAF requestAnimationFrame (rAF) loop. React only handles the two toggle switches. This avoids re-renders on every frame and keeps the hot path clean.
+### Keeping the render loop outside React
+pan, zoom, tile state and draw calls all live in refs and a custom rAF requestAnimationFrame (rAF) loop. React only handles the two toggle switches. This avoids re-renders on every frame and keeps the hot path clean.
 
 ---
 
