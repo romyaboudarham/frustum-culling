@@ -159,7 +159,7 @@ function App() {
         {/* Toggle rows */}
         {([
           { label: 'Level of Detail', enabled: lodEnabled, toggle: () => setLodEnabled(l => !l) },
-          { label: 'Frustum Culling', enabled: cullingEnabled, toggle: () => setCullingEnabled(c => !c) },
+          { label: 'Viewport Culling', enabled: cullingEnabled, toggle: () => setCullingEnabled(c => !c) },
         ] as const).map(({ label, enabled, toggle }) => (
           <div key={label} style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
             <div onClick={toggle} style={{
@@ -189,7 +189,7 @@ function App() {
               </div>
             )}
 
-            {label === 'Frustum Culling' && (
+            {label === 'Viewport Culling' && (
               <div ref={tileCountRef} style={{ fontSize: 13, color: '#e0d896', marginLeft: 46 }}>
                 -- / -- tiles
               </div>
