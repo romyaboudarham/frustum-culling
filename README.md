@@ -1,6 +1,6 @@
 # Interactive Demo investigating how to design for optimal performance for large, 2D canvas web applications.
 
-Built to explore rendering optimisation techniques after a conversation about performance with the Vizcom team. Covers frustum culling and level of detail (LOD) using a raw Canvas 2D API (instead of three.js or WebGL) so every decision is visible and measurable.
+Built to explore rendering optimisation techniques after a conversation about performance with the Vizcom team. Covers viewport culling and level of detail (LOD) using a raw Canvas 2D API (instead of three.js or WebGL) so every decision is visible and measurable.
 
 ---
 
@@ -32,7 +32,7 @@ the current zoom level of each frame is mapped to a resolution tier. The respect
 
 Zoomed out with LOD shows significant performance increase. With LOD OFF, the GPU decodes and draws 2048px bitmaps scaled down to tiny screen-size tiles, which dramatically decreases performance. With LOD ON, the 64px tier is served instead and the GPU barely notices. Zoomed in, both modes use 2048px images anyway, so performance is near-identical.
 
-### Frustum Culling
+### Viewport Culling
 Removing draw calls for off-screen tiles.
 
 **Results (LOD ON, zoomed out, at rest)**
